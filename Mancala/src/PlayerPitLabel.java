@@ -28,7 +28,7 @@ public class PlayerPitLabel extends JLabel {
 		
 		int x = 10;
 		int y = 10;
-		for (int i = 1; i <= 48; i++) {
+		/*for (int i = 1; i <= 48; i++) {
 			if (i == 17 || i == 33) {
 				x += 20;
 				y = 10;
@@ -36,7 +36,7 @@ public class PlayerPitLabel extends JLabel {
 			Image image = sm.getStoneImg().getScaledInstance(ImageUtil.STONE_IMG_SIZE, ImageUtil.STONE_IMG_SIZE, Image.SCALE_DEFAULT);
 			g2.drawImage(image, x, y, this);
 			y += 15;
-		}
+		}*/
 		
 	}
 	

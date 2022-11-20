@@ -9,22 +9,22 @@ public class ClassicStyle implements StyleManager{
 
 	@Override
 	public BufferedImage getBackgroundImg() {
-		return ImageUtil.getImage("classic-bg.jpg");
+		return MancalaUtil.getImage("classic-bg.jpg");
 	}
 
 	@Override
 	public BufferedImage getMancalaImg() {
-		return ImageUtil.getImage("classic-player-pit.png");
+		return MancalaUtil.getImage("classic-player-pit.png");
 	}
 
 	@Override
 	public BufferedImage getPitImg() {
-		return ImageUtil.getImage("classic-pit.png");
+		return MancalaUtil.getImage("classic-pit.png");
 	}
 
 	@Override
 	public BufferedImage getStoneImg() {
-		return ImageUtil.getImage("classic-stone.png");
+		return MancalaUtil.getImage("classic-stone.png");
 		
 	}
 

@@ -4,22 +4,22 @@ public class ModernStyle implements StyleManager {
 
 	@Override
 	public BufferedImage getBackgroundImg() {
-		return ImageUtil.getImage("modern-background.jpg");
+		return MancalaUtil.getImage("modern-background.jpg");
 	}
 
 	@Override
 	public BufferedImage getMancalaImg() {
-		return ImageUtil.getImage("modern-player-pit.png");
+		return MancalaUtil.getImage("modern-player-pit.png");
 	}
 
 	@Override
 	public BufferedImage getPitImg() {
-		return ImageUtil.getImage("modern-pit.png");
+		return MancalaUtil.getImage("modern-pit.png");
 	}
 
 	@Override
 	public BufferedImage getStoneImg() {
-		return ImageUtil.getImage("modern-stone.png");
+		return MancalaUtil.getImage("modern-stone.png");
 	}
 
 
