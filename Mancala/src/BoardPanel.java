@@ -1,34 +1,50 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 
 import javax.swing.JPanel;
 
 public class BoardPanel extends JPanel{
-	
+
+	private final int pitImgSize = 100;
 	private StyleManager sm;
-	private BufferedImage bi;
-	
 
 	public BoardPanel(StyleManager sm) {
 		setLayout(null);
-		setLocation(100, 100);
-		setSize(500, 500);
+		setLocation(0, 0);
+		setSize(785, 360);
 		this.sm = sm;
+		
+		PlayerPitLabel mancalaPit1 = new PlayerPitLabel(sm, 30, 30, 100, 300);
+		PlayerPitLabel mancalaPit2 = new PlayerPitLabel(sm, 660, 30, 100, 300);
+		
+		setPitLabels(60);
+		setPitLabels(195);
+		
+		add(mancalaPit1);
+		add(mancalaPit2);
+	}
+	
+	private void setPitLabels(int y) {
+		int x = 130;
+		int gap = 85;
+		for (int i = 1; i <= 6; i++) {
+			PitLabel p = new PitLabel(sm, i, x, y, pitImgSize);
+			add(p);
+			x+=gap;
+		}
+		
+		
 	}
 
 
 	@Override
-	public void paint(Graphics g) {
-		
-		bi = sm.getBackgroundImg();
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		
-		g2.drawImage(bi, 0, 0, this);
+		Image bi = sm.getBackgroundImg();
+		g2.drawImage(bi, 0, 0,this.getWidth(),this.getHeight(), this);
 		
 	}
-
-	
-	
 	
 }

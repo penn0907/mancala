@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MancalaFrame extends JFrame implements MouseListener {
@@ -13,6 +15,13 @@ public class MancalaFrame extends JFrame implements MouseListener {
 	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
 	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+	
+	public static final int THREE_STONES = 3;
+	public static final int FOUR_STONES = 4;
+	
+	private StyleManager sm;
+	
+	private int numOfStone;
 
 	public MancalaFrame() {
 		setTitle("Mancala");
@@ -24,33 +33,50 @@ public class MancalaFrame extends JFrame implements MouseListener {
 		JPanel jp = new JPanel();
 		jp.setLocation(100, 100);
 		jp.setSize(500, 500);
+		JLabel jl = new JLabel("Please selet board style: ");
+		jl.setFont(new Font("Plain", Font.PLAIN, 20));
+		jp.add(jl);
+		JButton button1 = new JButton("Classic Style");
+		JButton button2 = new JButton("Modern Style");
 		
-		JButton classicButton = new JButton("Classic Style");
-		classicButton.addActionListener(new ActionListener() {
+		button1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				remove(jp);
+				if(sm != null) {
+					remove(jp);
+					numOfStone = THREE_STONES;
+					setBoardPanel(jp, sm);
+				}
+				sm = new ClassicStyle();
 				//TODO add board style to this frame
-				setBoardPanel(jp, new ClassicStyle());
-				
+				jl.setText("Please selet stone number: ");
+				button1.setText("3");
+				button2.setText("4");
+				repaint();
 			}
 		});
-		jp.add(classicButton);
+		jp.add(button1);
 		
-		JButton modernButton = new JButton("Modern Style");
-		modernButton.addActionListener(new ActionListener() {
+		button2.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				remove(jp);
 				//TODO add board style to this frame
-				setBoardPanel(jp, new ModernStyle());
+				if(sm != null) {
+					remove(jp);
+					numOfStone = FOUR_STONES;
+					setBoardPanel(jp, sm);
+				}
+				sm = new ModernStyle();
+				jl.setText("Please selet stone number: ");
+				button1.setText("3");
+				button2.setText("4");
+				repaint();
 				
 			}
 		});
-		jp.add(modernButton);
+		jp.add(button2);
 		
 		
 		add(jp);

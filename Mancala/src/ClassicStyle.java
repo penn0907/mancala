@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,13 +9,23 @@ public class ClassicStyle implements StyleManager{
 
 	@Override
 	public BufferedImage getBackgroundImg() {
-		BufferedImage bi = null;
-		try {
-			bi = ImageIO.read(new File("src/boardtest.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return bi;
+		return ImageUtil.getImage("classic-bg.jpg");
+	}
+
+	@Override
+	public BufferedImage getMancalaImg() {
+		return ImageUtil.getImage("classic-player-pit.png");
+	}
+
+	@Override
+	public BufferedImage getPitImg() {
+		return ImageUtil.getImage("classic-pit.png");
+	}
+
+	@Override
+	public BufferedImage getStoneImg() {
+		return ImageUtil.getImage("classic-stone.png");
+		
 	}
 
 
