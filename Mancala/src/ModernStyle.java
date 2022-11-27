@@ -1,25 +1,45 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class ModernStyle implements StyleManager {
+	
+	private BufferedImage bsckgroundImg;
+	private BufferedImage mancalaImg;
+	private BufferedImage pitImg;
+	private BufferedImage stoneImg;
+	
+	public ModernStyle() {
+		
+		bsckgroundImg = MancalaUtil.imgMap.get("modern-background");
+		mancalaImg = MancalaUtil.imgMap.get("modern-player-pit");
+		pitImg = MancalaUtil.imgMap.get("modern-pit");
+		stoneImg = MancalaUtil.imgMap.get("modern-stone");
+		
+	}
 
 	@Override
 	public BufferedImage getBackgroundImg() {
-		return MancalaUtil.getImage("modern-background.jpg");
+		return bsckgroundImg;
 	}
 
 	@Override
 	public BufferedImage getMancalaImg() {
-		return MancalaUtil.getImage("modern-player-pit.png");
+		return mancalaImg;
 	}
 
 	@Override
 	public BufferedImage getPitImg() {
-		return MancalaUtil.getImage("modern-pit.png");
+		return pitImg;
 	}
 
 	@Override
 	public BufferedImage getStoneImg() {
-		return MancalaUtil.getImage("modern-stone.png");
+		return stoneImg;
+	}
+
+	@Override
+	public Color getFontColor() {
+		return Color.DARK_GRAY;
 	}
 
 

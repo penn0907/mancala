@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public interface StyleManager {
@@ -9,5 +10,7 @@ public interface StyleManager {
 	BufferedImage getPitImg();
 	
 	BufferedImage getStoneImg();
+	
+	Color getFontColor();
 
 }

@@ -11,10 +11,12 @@ public class PitLabel extends JLabel {
 	private StyleManager sm;
 	private int value;
 	private int numOfStone;
+	private int player;
 
-	public PitLabel(StyleManager sm, int value, int x, int y, int size, int numOfStone) {
+	public PitLabel(StyleManager sm, int player, int value, int x, int y, int size, int numOfStone) {
 		super();
 		this.value = value;
+		this.player = player;
 		this.sm = sm;
 		this.numOfStone = numOfStone;
 		Image image = sm.getPitImg().getScaledInstance(size, size, Image.SCALE_DEFAULT);
@@ -47,5 +49,15 @@ public class PitLabel extends JLabel {
 		}
 
 	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public int getPlayer() {
+		return player;
+	}
+	
+	
 
 }

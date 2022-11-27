@@ -10,13 +10,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MancalaFrame extends JFrame implements MouseListener {
+public class MancalaFrame extends JFrame{
 
 	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
 	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
 	private StyleManager sm;
+
+	private JPanel initPanel;
+	private JLabel promptLabel;
+	private JButton button1;
+	private JButton button2;
 
 	private int numOfStone;
 
@@ -27,90 +32,56 @@ public class MancalaFrame extends JFrame implements MouseListener {
 		setLayout(null);
 
 		setResizable(false);
-		JPanel jp = new JPanel();
-		jp.setLocation(100, 100);
-		jp.setSize(500, 500);
-		JLabel jl = new JLabel("Please selet board style: ");
-		jl.setFont(new Font("Plain", Font.PLAIN, 20));
-		jp.add(jl);
-		JButton button1 = new JButton("Classic Style");
-		JButton button2 = new JButton("Modern Style");
+		initPanel = new JPanel();
+		initPanel.setLocation(100, 100);
+		initPanel.setSize(500, 500);
+		promptLabel = new JLabel("Please selet board style: ");
+		promptLabel.setFont(new Font("Plain", Font.PLAIN, 20));
+		initPanel.add(promptLabel);
+		button1 = new JButton("Classic Style");
+		button2 = new JButton("Modern Style");
 
-		button1.addActionListener(new ActionListener() {
+		button1.addActionListener(getStoneNumListener(MancalaUtil.BEGIN_STONES_3, MancalaUtil.CLASSIC_STYLE));
+		initPanel.add(button1);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (sm != null) {
-					remove(jp);
-					numOfStone = MancalaUtil.BEGIN_STONES_3;
-					setBoardPanel(jp, sm);
-				}
-				sm = new ClassicStyle();
-				// TODO add board style to this frame
-				jl.setText("Please selet stone number: ");
-				button1.setText("3");
-				button2.setText("4");
-				repaint();
-			}
-		});
-		jp.add(button1);
+		button2.addActionListener(getStoneNumListener(MancalaUtil.BEGIN_STONES_4, MancalaUtil.MODERN_STYLE));
+		initPanel.add(button2);
 
-		button2.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO add board style to this frame
-				if (sm != null) {
-					remove(jp);
-					numOfStone = MancalaUtil.BEGIN_STONES_4;
-					setBoardPanel(jp, sm);
-				}
-				sm = new ModernStyle();
-				jl.setText("Please selet stone number: ");
-				button1.setText("3");
-				button2.setText("4");
-				repaint();
-
-			}
-		});
-		jp.add(button2);
-
-		add(jp);
+		add(initPanel);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
+	}
+	
+	private ActionListener getStoneNumListener(int num, int style) {
+		return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sm != null) {
+					remove(initPanel);
+					numOfStone = num;
+					setBoardPanel(initPanel, sm);
+				} else {
+					if (style == 1) {
+						sm = new ClassicStyle();
+					} else {
+						sm = new ModernStyle();
+					}
+					promptLabel.setText("Please selet stone number: ");
+					button1.setText("3");
+					button2.setText("4");
+					repaint();
+				}
+			}
+		};
 	}
 
 	private void setBoardPanel(JPanel jp, StyleManager sm) {
 		BoardPanel bp = new BoardPanel(sm, numOfStone);
 		add(bp);
 		repaint();
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
 	}
 
 }
