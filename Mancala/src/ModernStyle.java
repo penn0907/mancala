@@ -1,6 +1,11 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-
+/**
+ * ModernStyle concrete class
+ * 
+ * @author Yupeng Ni
+ * CS151, Team Project
+ */
 public class ModernStyle implements StyleManager {
 	
 	private BufferedImage bsckgroundImg;
@@ -8,6 +13,9 @@ public class ModernStyle implements StyleManager {
 	private BufferedImage pitImg;
 	private BufferedImage stoneImg;
 	
+	/**
+	 * constructor, load the image
+	 */
 	public ModernStyle() {
 		
 		bsckgroundImg = MancalaUtil.imgMap.get("modern-background");
@@ -16,27 +24,42 @@ public class ModernStyle implements StyleManager {
 		stoneImg = MancalaUtil.imgMap.get("modern-stone");
 		
 	}
-
+	
+	/**
+	 * get backgroundImg 
+	 */
 	@Override
 	public BufferedImage getBackgroundImg() {
 		return bsckgroundImg;
 	}
 
+	/**
+	 * get player pit image
+	 */
 	@Override
 	public BufferedImage getMancalaImg() {
 		return mancalaImg;
 	}
 
+	/**
+	 * pit image
+	 */
 	@Override
 	public BufferedImage getPitImg() {
 		return pitImg;
 	}
 
+	/**
+	 * stone image
+	 */
 	@Override
 	public BufferedImage getStoneImg() {
 		return stoneImg;
 	}
 
+	/**
+	 * get font color
+	 */
 	@Override
 	public Color getFontColor() {
 		return Color.DARK_GRAY;

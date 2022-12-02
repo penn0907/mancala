@@ -1,50 +1,55 @@
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Mancala view main frame
+ * 
+ * @author Yupeng Ni
+ * CS151, Team Project
+ */
 public class MancalaFrame extends JFrame{
 
-	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
-
-	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-
-	private StyleManager sm;
-
-	private JPanel initPanel;
-	private JLabel promptLabel;
+	private JPanel initPanel;	//style and number of stone selection panel
+	private JLabel promptLabel;	//message label to prompt user to select
 	private JButton button1;
 	private JButton button2;
 
-	private int numOfStone;
+	private int numOfStone;	// number of stone
 
+	/**
+	 * constructor, setting layout
+	 */
 	public MancalaFrame() {
 		setTitle("Mancala");
 		setSize(800, 400);
-		setLocation((width - 800) / 2, (height - 400) / 2);
 		setLayout(null);
 
 		setResizable(false);
 		initPanel = new JPanel();
 		initPanel.setLocation(100, 100);
 		initPanel.setSize(500, 500);
+		
+		Font font = new Font("Plain", Font.PLAIN, 20);
 		promptLabel = new JLabel("Please selet board style: ");
-		promptLabel.setFont(new Font("Plain", Font.PLAIN, 20));
+		promptLabel.setFont(font);
 		initPanel.add(promptLabel);
-		button1 = new JButton("Classic Style");
-		button2 = new JButton("Modern Style");
-
-		button1.addActionListener(getStoneNumListener(MancalaUtil.BEGIN_STONES_3, MancalaUtil.CLASSIC_STYLE));
+		button1 = new JButton("Classic");
+		button1.setBackground(Color.LIGHT_GRAY);
+		button1.setForeground(Color.WHITE);
+		button1.setFont(font);
+		
+		button2 = new JButton("Modern");
+		button2.setBackground(Color.LIGHT_GRAY);
+		button2.setForeground(Color.WHITE);
+		button2.setFont(font);
 		initPanel.add(button1);
 
-		button2.addActionListener(getStoneNumListener(MancalaUtil.BEGIN_STONES_4, MancalaUtil.MODERN_STYLE));
+		
 		initPanel.add(button2);
 
 		add(initPanel);
@@ -53,35 +58,29 @@ public class MancalaFrame extends JFrame{
 		setVisible(true);
 
 	}
-	
-	private ActionListener getStoneNumListener(int num, int style) {
-		return new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (sm != null) {
-					remove(initPanel);
-					numOfStone = num;
-					setBoardPanel(initPanel, sm);
-				} else {
-					if (style == 1) {
-						sm = new ClassicStyle();
-					} else {
-						sm = new ModernStyle();
-					}
-					promptLabel.setText("Please selet stone number: ");
-					button1.setText("3");
-					button2.setText("4");
-					repaint();
-				}
-			}
-		};
+	public JPanel getInitPanel() {
+		return initPanel;
 	}
 
-	private void setBoardPanel(JPanel jp, StyleManager sm) {
-		BoardPanel bp = new BoardPanel(sm, numOfStone);
-		add(bp);
-		repaint();
+	public JLabel getPromptLabel() {
+		return promptLabel;
+	}
+
+	public JButton getButton1() {
+		return button1;
+	}
+
+	public JButton getButton2() {
+		return button2;
+	}
+
+	public int getNumOfStone() {
+		return numOfStone;
+	}
+
+	public void setNumOfStone(int numOfStone) {
+		this.numOfStone = numOfStone;
 	}
 
 }

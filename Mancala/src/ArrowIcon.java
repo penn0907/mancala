@@ -4,6 +4,12 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
+/**
+ * Custom arrow icon for pointing current player
+ * 
+ * @author Yupeng Ni
+ * CS151, Team Project
+ */
 public class ArrowIcon implements Icon {
 	
 	private int size;
@@ -19,8 +25,12 @@ public class ArrowIcon implements Icon {
 		
 	}
 	
+	/**
+	 * set up the coordinate for painting arrow
+	 * @param direct  1: point to right; -1: point to left
+	 */
 	private void setXYPoints(int direct) {
-		if (direct == MancalaUtil.PLAYER_1) {
+		if (direct == MancalaUtil.PLAYER_B) {
 			xs[0] = size;
 			ys[0] = -1;
 			xs[1] = size;

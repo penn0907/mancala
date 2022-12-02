@@ -1,55 +1,78 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Mancala Board panel
+ * 
+ * @author Yupeng Ni
+ * CS151, Team Project
+ */
 public class BoardPanel extends JPanel {
 
-	private StyleManager sm;
-	private MancalaModel mancalaM;
-	private PlayerPitLabel mancalaPit1;
-	private PlayerPitLabel mancalaPit2;
-	private JLabel msgL;
+	private JLabel msgL; // msg label
+	private JButton undoB; // undo button
+
+	private Color fontColor;
+	private BufferedImage backGroundImg;
+	private BufferedImage mancalaImg;
+	private BufferedImage stoneImg;
+	private BufferedImage pitImg;
+
+	private MouseListener mouseListener;
+	private ActionListener undoListener;
 
 	private int[] pitA;
 	private int[] pitB;
+	private int mancalaA; // player pit score
+	private int mancalaB;
+	private int currentPlayer;
 
-	public BoardPanel(StyleManager sm, int numOfStone) {
-		this.sm = sm;
-		mancalaM = new MancalaModel(numOfStone);
-
-		this.pitA = mancalaM.getPitA();
-		this.pitB = mancalaM.getPitB();
+	/**
+	 * constructor
+	 * @param numOfStone
+	 */
+	public BoardPanel(int numOfStone) {
 
 		setLayout(null);
 		setLocation(0, 0);
 		setSize(785, 360);
 
-		setPitLabels("PLAYER 1 TURN");
-
 	}
 
-	private void setPitLabels(String msg) {
+	/**
+	 * init the panel
+	 * 
+	 * @param msg message to display
+	 */
+	public void init(String msg) {
 
-		JLabel p1 = new JLabel("PLAYER 1");
+		JLabel p1 = new JLabel("PLAYER B");
 		p1.setFont(new Font("Bold", Font.BOLD, 16));
 		p1.setSize(200, 30);
 		p1.setLocation(40, 5);
-		p1.setForeground(sm.getFontColor());
-		JLabel p2 = new JLabel("PLAYER 2");
+		p1.setForeground(fontColor);
+		JLabel p2 = new JLabel("PLAYER A");
 		p2.setFont(new Font("Bold", Font.BOLD, 16));
 		p2.setSize(200, 30);
 		p2.setLocation(670, 5);
-		p2.setForeground(sm.getFontColor());
+		p2.setForeground(fontColor);
 
-		ArrowIcon arrow = new ArrowIcon(mancalaM.getCurrentPlayer(), 30, sm.getFontColor());
+		// add 2 player pits
+		PlayerPitLabel mancalaPit1 = new PlayerPitLabel(mancalaImg, stoneImg, mancalaB, 30, 30, 100, 300);
+		PlayerPitLabel mancalaPit2 = new PlayerPitLabel(mancalaImg, stoneImg, mancalaA, 660, 30, 100, 300);
+		//arrow icon, point to the current player
+		ArrowIcon arrow = new ArrowIcon(currentPlayer, 30, fontColor);
 		JLabel arrowL = new JLabel(arrow);
-		int arrowX = mancalaM.getCurrentPlayer() == MancalaUtil.PLAYER_1 ? 150 : 600;
+		int arrowX = currentPlayer == MancalaUtil.PLAYER_A ? 600 : 150;
 		arrowL.setSize(30, 30);
 		arrowL.setLocation(arrowX, 165);
 
@@ -58,9 +81,14 @@ public class BoardPanel extends JPanel {
 		msgL.setSize(400, 30);
 		msgL.setLocation(280, 165);
 
-		mancalaPit1 = new PlayerPitLabel(sm, mancalaM.getMancalaB(), -1, 30, 30, 100, 300);
-		mancalaPit2 = new PlayerPitLabel(sm, mancalaM.getMancalaA(), 1, 660, 30, 100, 300);
+		undoB = new JButton("UNDO");
+		undoB.setLocation(360, 300);
+		undoB.setSize(70, 30);
+		undoB.setForeground(Color.WHITE);
+		undoB.setBackground(fontColor);
+		undoB.addActionListener(undoListener);
 
+		add(undoB);
 		add(p1);
 		add(p2);
 		add(arrowL);
@@ -68,99 +96,83 @@ public class BoardPanel extends JPanel {
 		add(mancalaPit1);
 		add(mancalaPit2);
 
-		int gap = 85;
+		int gap = 85;	//gap length for each pit
 		int x = 130 + (pitA.length - 1) * gap;
 		int y = 60;
-
+		//add the pits for player B
 		for (int i = 0; i < pitB.length; i++) {
-			PitLabel p = new PitLabel(sm, -1, i, x, y, MancalaUtil.PIT_IMG_SIZE, pitB[i]);
-			p.addMouseListener(moveHandler());
+			PitLabel p = new PitLabel(pitImg, stoneImg, -1, i, x, y, MancalaUtil.PIT_IMG_SIZE, pitB[i]);
+			p.addMouseListener(mouseListener);
 			add(p);
 			x -= gap;
 		}
 
 		x = 130;
 		y = 195;
-
+		//add the pits for player A
 		for (int i = 0; i < pitA.length; i++) {
-			PitLabel p = new PitLabel(sm, 1, i, x, y, MancalaUtil.PIT_IMG_SIZE, pitA[i]);
-			p.addMouseListener(moveHandler());
+			PitLabel p = new PitLabel(pitImg, stoneImg, 1, i, x, y, MancalaUtil.PIT_IMG_SIZE, pitA[i]);
+			p.addMouseListener(mouseListener);
 			add(p);
 			x += gap;
 		}
 
 	}
 
-	private MouseListener moveHandler() {
-		return new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				PitLabel p = (PitLabel) e.getSource();
-				if (p.getPlayer() != mancalaM.getCurrentPlayer()) {
-					return;
-				}
-
-				String playerStr = mancalaM.getCurrentPlayer() == MancalaUtil.PLAYER_1 ? " PLAYER 1 " : " PLAYER 2 ";
-				int move = mancalaM.takeTurn(p.getValue() + 1);
-
-				if (mancalaM.isGameOver() != 0) {
-					String msg = null;
-					if (mancalaM.getMancalaB() > mancalaM.getMancalaA()) {
-						msg = "GAME OVER PLAYER 1 WIN!";
-					} else if (mancalaM.getMancalaB() < mancalaM.getMancalaA()) {
-						msg = "GAME OVER PLAYER 2 WIN!";
-					} else {
-						msg = "GAME OVER DRAW!";
-					}
-					refreshPanel(msg);
-					return;
-				} else if (move == 0) {
-					return;
-				} else if (move == 2) {
-					refreshPanel(playerStr + "GET A FREE TURN!");
-					return;
-				}
-
-				mancalaM.nextPlayer();
-				playerStr = mancalaM.getCurrentPlayer() == MancalaUtil.PLAYER_1 ? " PLAYER 1 " : " PLAYER 2 ";
-
-				refreshPanel(playerStr + "TURN");
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-		};
-	}
-
-	private void refreshPanel(String msg) {
-		removeAll();
-		revalidate();
-		repaint();
-		setPitLabels(msg);
-	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		Image bi = sm.getBackgroundImg();
-		g2.drawImage(bi, 0, 0, this.getWidth(), this.getHeight(), this);
+		g2.drawImage(backGroundImg, 0, 0, this.getWidth(), this.getHeight(), this);
 
+	}
+
+	public void setFontColor(Color fontColor) {
+		this.fontColor = fontColor;
+	}
+
+	public void setPitA(int[] pitA) {
+		this.pitA = pitA;
+	}
+
+	public void setPitB(int[] pitB) {
+		this.pitB = pitB;
+	}
+
+	public void setBackGroundImg(BufferedImage backGroundImg) {
+		this.backGroundImg = backGroundImg;
+	}
+
+	public void setMancalaA(int mancalaA) {
+		this.mancalaA = mancalaA;
+	}
+
+	public void setMancalaB(int mancalaB) {
+		this.mancalaB = mancalaB;
+	}
+
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	public void setMancalaImg(BufferedImage mancalaImg) {
+		this.mancalaImg = mancalaImg;
+	}
+
+	public void setStoneImg(BufferedImage stoneImg) {
+		this.stoneImg = stoneImg;
+	}
+
+	public void setPitImg(BufferedImage pitImg) {
+		this.pitImg = pitImg;
+	}
+
+	public void setMouseListener(MouseListener mouseListener) {
+		this.mouseListener = mouseListener;
+	}
+
+	public void setUndoListener(ActionListener undoListener) {
+		this.undoListener = undoListener;
 	}
 
 }
