@@ -1,7 +1,7 @@
 /**
  * Test class
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class MancalaTest {

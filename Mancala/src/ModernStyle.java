@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 /**
  * ModernStyle concrete class
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class ModernStyle implements StyleManager {

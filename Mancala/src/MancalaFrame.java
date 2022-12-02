@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 /**
  * Mancala view main frame
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class MancalaFrame extends JFrame{

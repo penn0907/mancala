@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 /**
  * Board Style manager strategy
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public interface StyleManager {

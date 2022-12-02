@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 /**
  * Mancala controller
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class MancalaController {

@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 /**
  * Classic Style concrete class
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class ClassicStyle implements StyleManager{

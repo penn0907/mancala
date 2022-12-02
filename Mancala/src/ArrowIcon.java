@@ -7,7 +7,7 @@ import javax.swing.Icon;
 /**
  * Custom arrow icon for pointing current player
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class ArrowIcon implements Icon {

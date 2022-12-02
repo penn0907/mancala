@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 /**
  * Pit label class
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class PitLabel extends JLabel {

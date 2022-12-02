@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 /**
  * player's mancala label
  * 
- * @author Yupeng Ni
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class PlayerPitLabel extends JLabel {

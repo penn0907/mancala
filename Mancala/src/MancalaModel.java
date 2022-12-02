@@ -1,7 +1,7 @@
 /**
  * Mancala Model
  * 
- * @author Heibai Lian
+ * @author Yupeng Ni, Hebai Lian, Wesley Zhao
  * CS151, Team Project
  */
 public class MancalaModel {
